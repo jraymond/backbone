@@ -1052,8 +1052,10 @@
     // Ensure that we have the appropriate request data.
     if (!params.data && model && (method == 'create' || method == 'update')) {
       params.contentType = 'application/json';
-      params.data = JSON.stringify(model.toJSON());
-    }
+      //params.data = JSON.stringify(model.toJSON());
+      // Add tag for kind of model to interface with App Engine Rest Server
+      params.data = '{' + '"' + model._kind + '"' + ':' + JSON.stringify(model.toJSON()) + '}';
+}
 
     // For older servers, emulate JSON by encoding the request into an HTML-form.
     if (Backbone.emulateJSON) {
